@@ -1,4 +1,4 @@
-Hosted game: https://fhgggtyf.github.io/Build/index.html
+Hosted game: https://fhgggtyf.github.io/FPSBuild/index.html
 
 In-game description:
 
