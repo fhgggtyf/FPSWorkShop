@@ -50,7 +50,7 @@ public class EnemyAI : MonoBehaviour
         // us to call it every frame.
         currentState.UpdateState();
 
-        if (life <= 0) Destroy(this.gameObject);
+        if (life <= 0) this.gameObject.SetActive(false);
 
     }
 

@@ -30,6 +30,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
+        public GameProcedure ctx;
+
         public GameObject healthText;
         public GameObject ShieldText;
 
@@ -54,6 +56,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public float life = 100;
         public float shield = 100;
 
+        public MouseLook MouseLook { get => m_MouseLook; set => m_MouseLook = value; }
+
         // Use this for initialization
         private void Start()
         {
@@ -66,7 +70,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_NextStep = m_StepCycle/2f;
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
-			m_MouseLook.Init(transform , m_Camera.transform);
+			MouseLook.Init(transform , m_Camera.transform);
         }
 
 
@@ -74,8 +78,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Update()
         {
             RotateView();
-            healthText.GetComponent<TextMesh>().text = "Health: " + life;
-            ShieldText.GetComponent<TextMesh>().text = "Shield: " + shield;
+            healthText.GetComponent<TMP_Text>().text = "Health: " + life;
+            ShieldText.GetComponent<TMP_Text>().text = "Shield: " + shield;
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
             {
@@ -144,7 +148,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
 
-            m_MouseLook.UpdateCursorLock();
+            MouseLook.UpdateCursorLock();
         }
 
 
@@ -271,11 +275,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             Debug.Log("I am hit:" + life);
+
+            if (life <= 0)
+            {
+                ctx.OnDeath();
+            }
         }
 
         private void RotateView()
         {
-            m_MouseLook.LookRotation (transform, m_Camera.transform);
+            MouseLook.LookRotation (transform, m_Camera.transform);
         }
 
 
